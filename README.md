@@ -1,5 +1,5 @@
 # suyool-test
-
+<!DOCTYPE html>
 <html>
 <head>
     <title>Suyool Payment Integration Test</title>
@@ -15,7 +15,7 @@
                 data.tranTS +
                 data.additionalInfo +
                 certificate;
-            
+
             return CryptoJS.SHA512(concatenatedData).toString(CryptoJS.enc.Base64);
         }
 
@@ -53,19 +53,20 @@
             event.preventDefault();
 
             const amount = parseFloat(document.getElementById('amount').value).toFixed(3);
+            const timestamp = Math.floor(Date.now() / 1000); // Unix timestamp in seconds
             const data = {
                 amount: amount,
                 currency: document.getElementById('currency').value,
-                tranID: "hxxsd-1",
-                tranTS: '1744291844',
-                ts: '1744291844',
-                merchantAccountID: '14764',
+                tranID: "tran_" + Math.random().toString(36).substr(2, 9) + "_" + Date.now(),
+                tranTS: timestamp.toString(),
+                ts: timestamp.toString(),
+                merchantAccountID: '50',
                 callBackURL: 'https://sandbox.suyool.com/callbackURL',
                 additionalInfo: 'any additional info here',
                 currentUrl: 'https://suyool.com',
                 browserType: 'Chrome125'
             };
-            const certificate = '1kaayp7q1epqyfmmnvopwon3bxw4f70hxykk9n38zoak29dk0nfso7zt9xw31if0dal6wq5tai7td7uy24qaq3vobksrr9siuxr3';
+            const certificate = 'eSW32UuxujH9dzww1w0uNy9WNgmLneV4Da9a6HZNUawDhSQXW2RDaxLGuzKxPxGWSvNcFSBK6LpPN1m5CuejLJqjVLeQibpzacKe';
 
             createSuyoolPaymentIframe(data, certificate);
         }
