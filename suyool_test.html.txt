@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Suyool Payment Integration Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script>
+        function generateSecureHash(data, certificate) {
+            const concatenatedData = 
+                data.tranID +
+                data.merchantAccountID +
+                data.amount +
+                data.currency +
+                data.callBackURL +
+                data.tranTS +
+                data.additionalInfo +
+                certificate;
+            
+            return CryptoJS.SHA512(concatenatedData).toString(CryptoJS.enc.Base64);
+        }
+
+        function createSuyoolPaymentIframe(data, certificate) {
+            const secureHash = generateSecureHash(data, certificate);
+
+            const encodedCallBackURL = encodeURIComponent(data.callBackURL);
+            const encodedBrowserType = encodeURIComponent(data.browserType);
+            const encodedSecureHash = encodeURIComponent(secureHash);
+            const baseUrl = 'https://sandbox.suyool.com/paysuyoolmobile/?';
+
+            const fullUrl = baseUrl +
+                `AdditionalInfo=${encodeURIComponent(data.additionalInfo)}` +
+                `&TranID=${data.tranID}` +
+                `&Amount=${data.amount}` +
+                `&Currency=${data.currency}` +
+                `&TranTS=${data.tranTS}` +
+                `&CallBackURL=${encodedCallBackURL}` +
+                `&browserType=${encodedBrowserType}` +
+                `&SecureHash=${encodedSecureHash}` +
+                `&TS=${data.ts}` +
+                `&MerchantID=${data.merchantAccountID}` +
+                `&CurrentUrl=${data.currentUrl}`;
+
+            console.log("Full iFrame URL:", fullUrl);
+
+            const iframe = document.createElement('iframe');
+            iframe.src = fullUrl;
+            iframe.width = '100%';
+            iframe.height = '1200px';
+            document.body.appendChild(iframe);
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const amount = parseFloat(document.getElementById('amount').value).toFixed(3);
+            const data = {
+                amount: amount,
+                currency: document.getElementById('currency').value,
+                tranID: "hxxsd-1",
+                tranTS: '1744291844',
+                ts: '1744291844',
+                merchantAccountID: '14764',
+                callBackURL: 'https://sandbox.suyool.com/callbackURL',
+                additionalInfo: 'any additional info here',
+                currentUrl: 'https://suyool.com',
+                browserType: 'Chrome125'
+            };
+            const certificate = '1kaayp7q1epqyfmmnvopwon3bxw4f70hxykk9n38zoak29dk0nfso7zt9xw31if0dal6wq5tai7td7uy24qaq3vobksrr9siuxr3';
+
+            createSuyoolPaymentIframe(data, certificate);
+        }
+    </script>
+</head>
+<body>
+    <h1>Suyool Payment Integration Test</h1>
+    <form id="paymentForm" onsubmit="handleFormSubmit(event)">
+        <div>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" required>
+        </div>
+        <div>
+            <label for="currency">Currency:</label>
+            <select id="currency" name="currency" required>
+                <option value="USD">USD</option>
+                <option value="LBP">LBP</option>
+            </select>
+        </div>
+        <button type="submit">Pay with Suyool</button>
+    </form>
+</body>
+</html>
