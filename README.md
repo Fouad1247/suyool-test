@@ -1,5 +1,4 @@
-# suyool-test
-<!DOCTYPE html>
+# suyool-Online_Integration-test
 <html>
 <head>
     <title>Suyool Payment Integration Test</title>
