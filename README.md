@@ -1,5 +1,5 @@
 # suyool-test
-<!DOCTYPE html>
+
 <html>
 <head>
     <title>Suyool Payment Integration Test</title>
