@@ -1,7 +1,5 @@
-# suyool-Online_Integration-test
 <html>
 <head>
-    <title>Suyool Payment Integration Test</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     <script>
         function generateSecureHash(data, certificate) {
