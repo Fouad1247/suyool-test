@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Suyool Payment-Integration Test</title>
+    <title>Suyool Payment Integration Test</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     <script>
+        // Generate the Secure Hash using SHA-512 and Base64 encoding
         function generateSecureHash(data, certificate) {
             const concatenatedData = 
                 data.tranID +
@@ -13,58 +15,82 @@
                 data.tranTS +
                 data.additionalInfo +
                 certificate;
-            
+
             return CryptoJS.SHA512(concatenatedData).toString(CryptoJS.enc.Base64);
         }
 
+        // Create the Suyool Payment iFrame
         function createSuyoolPaymentIframe(data, certificate) {
             const secureHash = generateSecureHash(data, certificate);
 
+            // Encode URL components to ensure proper formatting
             const encodedCallBackURL = encodeURIComponent(data.callBackURL);
             const encodedBrowserType = encodeURIComponent(data.browserType);
             const encodedSecureHash = encodeURIComponent(secureHash);
             const baseUrl = 'https://sandbox.suyool.com/paysuyoolmobile/?';
 
+            // Construct the full iFrame URL with proper parameter order
             const fullUrl = baseUrl +
-                `AdditionalInfo=${encodeURIComponent(data.additionalInfo)}` +
+                `MerchantID=${data.merchantAccountID}` +
                 `&TranID=${data.tranID}` +
                 `&Amount=${data.amount}` +
                 `&Currency=${data.currency}` +
                 `&TranTS=${data.tranTS}` +
-                `&CallBackURL=${encodedCallBackURL}` +
-                `&browserType=${encodedBrowserType}` +
-                `&SecureHash=${encodedSecureHash}` +
                 `&TS=${data.ts}` +
-                `&MerchantID=${data.merchantAccountID}` +
-                `&CurrentUrl=${data.currentUrl}`;
+                `&browserType=${encodedBrowserType}` +
+                `&CurrentUrl=${data.currentUrl}` +
+                `&AdditionalInfo=${encodeURIComponent(data.additionalInfo)}` +
+                `&SecureHash=${encodedSecureHash}` +
+                `&CallBackURL=${encodedCallBackURL}`;
 
-            console.log("Full iFrame URL:", fullUrl);
+            console.log("Generated iFrame URL:", fullUrl);
 
+            // Create and embed the iFrame
             const iframe = document.createElement('iframe');
             iframe.src = fullUrl;
             iframe.width = '100%';
             iframe.height = '1200px';
-            document.body.appendChild(iframe);
+
+            // Add event listeners to track the iFrame loading status
+            iframe.onload = function() {
+                console.log("Iframe loaded successfully.");
+            };
+            iframe.onerror = function() {
+                console.error("Error loading iframe.");
+            };
+
+            // Clear previous iframe and append the new one
+            const iframeContainer = document.getElementById('iframeContainer');
+            iframeContainer.innerHTML = '';  // Clear previous iframe
+            iframeContainer.appendChild(iframe);
         }
 
+        // Handle form submission
         function handleFormSubmit(event) {
             event.preventDefault();
 
-            const amount = parseFloat(document.getElementById('amount').value).toFixed(3);
+            // Format the amount to have up to two decimal places
+            const amount = parseFloat(document.getElementById('amount').value).toFixed(2);
+            const timestamp = Math.floor(Date.now() / 1000);  // Unix timestamp in seconds
+
+            // Collect form data
             const data = {
                 amount: amount,
                 currency: document.getElementById('currency').value,
-                tranID: "hxxsd-1",
-                tranTS: '1744291844',
-                ts: '1744291844',
-                merchantAccountID: '14764',
-                callBackURL: 'https://www.youtube.com/',
-                additionalInfo: 'any additional info here',
+                tranID: "tran_" + Math.random().toString(36).substr(2, 9) + "_" + Date.now(),
+                tranTS: timestamp.toString(),
+                ts: timestamp.toString(),
+                merchantAccountID: '50',
+                callBackURL: 'https://sandbox.suyool.com/callbackURL',  // Update as needed
+                additionalInfo: 'Test transaction',
                 currentUrl: 'https://suyool.com',
-                browserType: 'Chrome125'
+                browserType: navigator.userAgent  // Dynamic browser type
             };
-            const certificate = '1kaayp7q1epqyfmmnvopwon3bxw4f70hxykk9n38zoak29dk0nfso7zt9xw31if0dal6wq5tai7td7uy24qaq3vobksrr9siuxr3';
 
+            // Example certificate (replace with the actual one)
+            const certificate = 'eSW32UuxujH9dzww1w0uNy9WNgmLneV4Da9a6HZNUawDhSQXW2RDaxLGuzKxPxGWSvNcFSBK6LpPN1m5CuejLJqjVLeQibpzacKe';
+
+            // Create the payment iframe
             createSuyoolPaymentIframe(data, certificate);
         }
     </script>
@@ -85,5 +111,8 @@
         </div>
         <button type="submit">Pay with Suyool</button>
     </form>
+
+    <!-- iFrame container to display the payment page -->
+    <div id="iframeContainer" style="margin-top: 20px;"></div>
 </body>
 </html>
