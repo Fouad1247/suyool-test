@@ -59,7 +59,7 @@
                 ts: timestamp.toString(),
                 merchantAccountID: '50',
                 CallBackURL: 'https://www.youtube.com/',
-                additionalInfo: 'any additional info here',
+                additionalInfo: 'fouad testing payment',
                 currentUrl: 'https://suyool.com',
                 browserType: 'Chrome125'
             };
