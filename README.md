@@ -8,7 +8,7 @@
                 data.merchantAccountID +
                 data.amount +
                 data.currency +
-                data.callBackURL +
+                data.CallBackURL +
                 data.tranTS +
                 data.additionalInfo +
                 certificate;
@@ -19,7 +19,7 @@
         function createSuyoolPaymentIframe(data, certificate) {
             const secureHash = generateSecureHash(data, certificate);
 
-            const encodedCallBackURL = encodeURIComponent(data.callBackURL);
+            const encodedCallBackURL = encodeURIComponent(data.CallBackURL);
             const encodedBrowserType = encodeURIComponent(data.browserType);
             const encodedSecureHash = encodeURIComponent(secureHash);
             const baseUrl = 'https://sandbox.suyool.com/paysuyoolmobile/?';
@@ -58,7 +58,7 @@
                 tranTS: timestamp.toString(),
                 ts: timestamp.toString(),
                 merchantAccountID: '50',
-                callBackURL: 'https://www.youtube.com/',
+                CallBackURL: 'https://www.youtube.com/',
                 additionalInfo: 'any additional info here',
                 currentUrl: 'https://suyool.com',
                 browserType: 'Chrome125'
