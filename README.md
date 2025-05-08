@@ -58,7 +58,7 @@
                 tranTS: timestamp.toString(),
                 ts: timestamp.toString(),
                 merchantAccountID: '50',
-                callBackURL: 'https://www.youtube.com/',
+                callBackURL: 'https://wordpress.suyool.com/wp-json/wc/v3/update-status/',
                 additionalInfo: 'any additional info here',
                 currentUrl: 'https://suyool.com',
                 browserType: 'Chrome125'
