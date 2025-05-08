@@ -58,7 +58,7 @@
                 tranTS: timestamp.toString(),
                 ts: timestamp.toString(),
                 merchantAccountID: '50',
-                callBackURL: 'https://sandbox.suyool.com/callbackURL',
+                callBackURL: '[https://sandbox.suyool.com/callbackURL](https://www.youtube.com/)',
                 additionalInfo: 'any additional info here',
                 currentUrl: 'https://suyool.com',
                 browserType: 'Chrome125'
