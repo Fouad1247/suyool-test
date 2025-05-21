@@ -22,7 +22,7 @@
             const encodedCallBackURL = encodeURIComponent(data.CallBackURL);
             const encodedBrowserType = encodeURIComponent(data.browserType);
             const encodedSecureHash = encodeURIComponent(secureHash);
-            const baseUrl = 'https://sandbox.suyool.com/paysuyoolmobile/?';
+            const baseUrl = 'https://suyool.com/paysuyoolmobile?';
 
             const fullUrl = baseUrl +
                 `AdditionalInfo=${encodeURIComponent(data.additionalInfo)}` +
@@ -63,7 +63,7 @@
                 currentUrl: 'https://suyool.com',
                 browserType: 'Chrome125'
             };
-            const certificate = 'eSW32UuxujH9dzww1w0uNy9WNgmLneV4Da9a6HZNUawDhSQXW2RDaxLGuzKxPxGWSvNcFSBK6LpPN1m5CuejLJqjVLeQibpzacKe';
+            const certificate = 'kEjHyTPHkKUWdumFmTL64DfqjitQcit1ZxdDTNuljscarcNXEy8zmhaTiTlr0a0YkTnAQjfAP6dOZZcMfouVneaqrLlGZUUj55i3';
 
             createSuyoolPaymentIframe(data, certificate);
         }
