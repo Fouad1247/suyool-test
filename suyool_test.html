@@ -27,7 +27,7 @@
             const encodedCallBackURL = encodeURIComponent(data.CallBackURL);
             const encodedBrowserType = encodeURIComponent(data.browserType);
             const encodedSecureHash = encodeURIComponent(secureHash);
-            const baseUrl = 'https://sandbox.suyool.com/paysuyoolmobile/?';
+            const baseUrl = 'https://suyool.com/paysuyoolmobile?';
 
             // Construct the full iFrame URL with proper parameter order
             const fullUrl = baseUrl +
@@ -88,7 +88,7 @@
             };
 
             // Example certificate (replace with the actual one)
-            const certificate = 'eSW32UuxujH9dzww1w0uNy9WNgmLneV4Da9a6HZNUawDhSQXW2RDaxLGuzKxPxGWSvNcFSBK6LpPN1m5CuejLJqjVLeQibpzacKe';
+            const certificate = 'kEjHyTPHkKUWdumFmTL64DfqjitQcit1ZxdDTNuljscarcNXEy8zmhaTiTlr0a0YkTnAQjfAP6dOZZcMfouVneaqrLlGZUUj55i3';
 
             // Create the payment iframe
             createSuyoolPaymentIframe(data, certificate);
